@@ -30,4 +30,9 @@ namespace KatanaEngine
 		if (pTarget) al_set_target_bitmap(pTarget->GetAllegroBitmap());
 		else al_set_target_bitmap(al_get_backbuffer(s_pDisplay));
 	}
+
+	void RenderTarget::Clear(const Color& clearColor)
+	{
+		al_clear_to_color(clearColor.GetAllegroColor());
+	}
 }

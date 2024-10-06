@@ -6,6 +6,11 @@
 
 GameplayScreen::GameplayScreen(const int levelIndex, const PlayerOptions& options)
 {
+	int width = Game::GetScreenWidth();
+	int height = Game::GetScreenHeight();
+
+	m_pRenderTarget = new RenderTarget(width, height);
+
 	m_levelIndex = levelIndex;
 	m_playerOptions = options;
 
@@ -52,9 +57,14 @@ void GameplayScreen::Update(const GameTime& gameTime)
 
 void GameplayScreen::Draw(SpriteBatch& spriteBatch)
 {
+	RenderTarget::Set(m_pRenderTarget);
+	//m_pRenderTarget->Clear(Color::BLACK); // fun times!
 	spriteBatch.Begin();
-
 	m_pLevel->Draw(spriteBatch);
-	
+	spriteBatch.End();
+
+	RenderTarget::Set();
+	spriteBatch.Begin();
+	spriteBatch.Draw(m_pRenderTarget, Vector2::ZERO);
 	spriteBatch.End();
 }

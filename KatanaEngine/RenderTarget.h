@@ -43,9 +43,22 @@ namespace KatanaEngine
 			@return Returns true. */
 		virtual bool Load(const std::string &path, ResourceManager *pManager) { return true; }
 
+		/** @brief Set the clear color of the render target.
+			@param color The desired clear color. */
+		virtual void SetClearColor(const Color& color) { m_clearColor = color; }
+
+		/** @brief Reset all of the pixels in the render target to the clear color.
+			@param clearColor The desired clear color. */
+		virtual void Clear(const Color& clearColor);
+
+		/** @brief Reset all of the pixels in the render target to the clear color. */
+		virtual void Clear() { Clear(m_clearColor); }
+
 	private:
 
 		static ALLEGRO_DISPLAY *s_pDisplay;
+
+		Color m_clearColor = Color::TRANSPARENT;
 
 	};
 }

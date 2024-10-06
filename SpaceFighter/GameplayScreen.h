@@ -40,4 +40,6 @@ private:
 
 	PlayerOptions m_playerOptions = PlayerOptions();
 
+	RenderTarget *m_pRenderTarget = nullptr;
+
 };

@@ -9,6 +9,8 @@ using namespace KatanaEngine;
 
 SpaceFighter::SpaceFighter()
 {
+	SetOpenGLFlag();
+
 	InitializeScreenManager();
 
 	// The "Content" directory is located in the SpaceFighter project directory
