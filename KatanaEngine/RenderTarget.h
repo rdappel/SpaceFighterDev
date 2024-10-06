@@ -31,7 +31,7 @@ namespace KatanaEngine
 
 		/** @brief Set the desired target to render to when drawing.
 			@param pTarget A pointer to the desired render target. */
-		static void Set(RenderTarget *pTarget);
+		static void Set(RenderTarget *pTarget = nullptr);
 
 		/** @brief Set the display of the target.
 			@param pDisplay A pointer to the display. */

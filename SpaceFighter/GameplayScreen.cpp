@@ -55,6 +55,6 @@ void GameplayScreen::Draw(SpriteBatch& spriteBatch)
 	spriteBatch.Begin();
 
 	m_pLevel->Draw(spriteBatch);
-
+	
 	spriteBatch.End();
 }
