@@ -14,6 +14,7 @@ SpaceFighter::SpaceFighter()
 
 	InitializeScreenManager();
 
+	// The "Content" directory is located in the SpaceFighter project directory
 	SetResourceDirectory("..\\SpaceFighter\\Content\\");
 
 	// Font for displaying the frame rate
