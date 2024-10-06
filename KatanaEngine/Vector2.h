@@ -16,8 +16,7 @@
 
 namespace KatanaEngine
 {
-	/** @brief Defines a vector with 2 components (x and y). 
-	    This is additional information... */
+	/** @brief Defines a vector with 2 components (x and y).*/
 	class Vector2
 	{
 
