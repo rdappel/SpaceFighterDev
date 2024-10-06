@@ -1,6 +1,6 @@
 ﻿
 /*
-     ██╗  ██╗  █████╗  ████████╗  █████╗  ███╗   ██╗  █████╗ 
+	 ██╗  ██╗  █████╗  ████████╗  █████╗  ███╗   ██╗  █████╗
 	 ██║ ██╔╝ ██╔══██╗ ╚══██╔══╝ ██╔══██╗ ████╗  ██║ ██╔══██╗
 	 █████╔╝  ███████║    ██║    ███████║ ██╔██╗ ██║ ███████║
 	 ██╔═██╗  ██╔══██║    ██║    ██╔══██║ ██║╚██╗██║ ██╔══██║
@@ -8,15 +8,15 @@
 	 ╚═╝  ╚═╝ ╚═╝  ╚═╝/\  ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚═╝  ╚═╝
    /vvvvvvvvvvvvvvvvvvv \=========================================,
    `^^^^^^^^^^^^^^^^^^^ /---------------------------------------"
-        Katana Engine \/ © 2012 - Shuriken Studios LLC
-			    http://www.shurikenstudios.com
+		Katana Engine \/ © 2012 - Shuriken Studios LLC
+				http://www.shurikenstudios.com
 */
 
 #include "KatanaEngine.h"
 
 namespace KatanaEngine
 {
-	
+
 	SpriteBatch::SpriteBatch(const uint32_t defaultCount)
 	{
 		for (uint32_t i = 0; i < defaultCount; ++i)
@@ -25,8 +25,8 @@ namespace KatanaEngine
 		}
 	}
 
-	void SpriteBatch::Begin(const SpriteSortMode sortMode, 
-		const BlendState blendState, ALLEGRO_TRANSFORM *pTransformation)
+	void SpriteBatch::Begin(const SpriteSortMode sortMode,
+		const BlendState blendState, ALLEGRO_TRANSFORM* pTransformation)
 	{
 		m_isStarted = true;
 		m_it = m_inactiveDrawables.begin();
@@ -47,12 +47,30 @@ namespace KatanaEngine
 		switch (blendState)
 		{
 		case BlendState::ALPHA:
+			al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+			break;
+		case BlendState::NON_PREMULTIPLIED:
 			al_set_blender(ALLEGRO_ADD, ALLEGRO_ALPHA, ALLEGRO_INVERSE_ALPHA);
 			break;
 		case BlendState::ADDITIVE:
 			al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ONE);
 			break;
-		}
+		case BlendState::SCREEN:
+			al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_SRC_COLOR);
+			break;
+		case BlendState::SUBTRACT:
+			al_set_blender(ALLEGRO_DEST_MINUS_SRC, ALLEGRO_ONE, ALLEGRO_ONE);
+			break;
+		case BlendState::REVERSE_SUBTRACT:
+			al_set_blender(ALLEGRO_SRC_MINUS_DEST, ALLEGRO_ONE, ALLEGRO_ONE);
+			break;
+		case BlendState::MULTIPLY:
+			al_set_blender(ALLEGRO_ADD, ALLEGRO_ALPHA, ALLEGRO_ONE);
+			break;
+		case BlendState::OVERWRITE:
+			al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
+			break;
+		};
 	}
 
 	void SpriteBatch::End(/*bool test*/)
@@ -105,7 +123,7 @@ namespace KatanaEngine
 		m_isStarted = false;
 	}
 
-	void SpriteBatch::DrawBitmap(Drawable *pDrawable)
+	void SpriteBatch::DrawBitmap(Drawable* pDrawable)
 	{
 		al_draw_tinted_scaled_rotated_bitmap_region(
 			pDrawable->Type.pBitmap,
@@ -246,8 +264,8 @@ namespace KatanaEngine
 	//}
 
 
-	void SpriteBatch::GetBatchSettings(SpriteSortMode &sortMode,
-		BlendState &blendState, ALLEGRO_TRANSFORM *pTransformation)
+	void SpriteBatch::GetBatchSettings(SpriteSortMode& sortMode,
+		BlendState& blendState, ALLEGRO_TRANSFORM* pTransformation)
 	{
 		assert(m_isStarted && "Begin must be called before the settings can be retrieved.");
 

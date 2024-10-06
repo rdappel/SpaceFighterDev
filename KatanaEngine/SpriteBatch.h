@@ -39,8 +39,15 @@ namespace KatanaEngine
 	/** @brief Defines the way in which textures blending will be calculated. */
 	enum class BlendState
 	{
-		ALPHA,			/**< Textures will be blended using premultiplied alpha blending. */
-		ADDITIVE		/**< Textures will be blended using additive blending. */
+		ALPHA,				/**< Textures will be blended using premultiplied alpha blending. */
+		NON_PREMULTIPLIED,	/**< Textures will be blended using non-premultiplied alpha blending. */
+		ADDITIVE,			/**< Textures will be blended using additive blending. */
+		SCREEN,				/**< Textures will be blended using screen blending. */
+		MULTIPLY,			/**< Textures will be blended using multiply blending. */
+		SUBTRACT,			/**< Textures will be blended using subtractive blending. */
+		REVERSE_SUBTRACT,	/**< Textures will be blended using reverse subtractive blending. */
+		OVERWRITE,			/**< Textures will be drawn without blending. */
+		NUM_BLEND_STATES
 	};
 
 	/** @brief Enables a group of sprites to be drawn using the same settings. */
