@@ -25,12 +25,12 @@ public:
 
 private:
 
-	static const int ITEM_COUNT = 5;
+	static const int ITEM_COUNT = 6;
 
-	enum Items { NUM_LIVES, SET_INVINCIBLE, MUSIC_VOL, SOUND_VOL, BACK };
+	enum Items { NUM_LIVES, SET_INVINCIBLE, MUSIC_VOL, SOUND_VOL, FULLSCREEN, BACK };
 	
 	const std::string m_itemTexts[ITEM_COUNT]
-		= { "Lives", "Invincible", "Music Volume", "Sound Volume", "Back" };
+		= { "Lives", "Invincible", "Music Volume", "Sound Volume", "Toggle Full Screen", "Back" };
 
 	PlayerOptions& m_playerOptions;
 

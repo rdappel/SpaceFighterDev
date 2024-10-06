@@ -2,8 +2,13 @@
 #include "OptionsMenuScreen.h"
 
 
-// Callback Function
+// Callback Functions
 void OnBackSelect(MenuScreen* pScreen) { pScreen->Exit(); }
+
+void OnToggleFullScreenSelect(MenuScreen* pScreen)
+{
+	pScreen->GetScreenManager()->GetGame()->ToggleFullScreen();
+}
 
 
 
@@ -37,6 +42,7 @@ void OptionsMenuScreen::LoadContent(ResourceManager* pResourceManager)
 	}
 
 	GetMenuItem(BACK)->SetSelectCallback(OnBackSelect);
+	GetMenuItem(FULLSCREEN)->SetSelectCallback(OnToggleFullScreenSelect);
 }
 
 void OptionsMenuScreen::HandleInput(const InputState& input)

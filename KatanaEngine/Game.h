@@ -83,6 +83,13 @@ namespace KatanaEngine
 		/** @brief Quits the game. */
 		virtual void Quit() { m_isRunning = false; }
 
+		/** @brief Toggles the game between fullscreen and windowed mode. */
+		virtual void ToggleFullScreen();
+
+		/** @brief Gets the full screen status of the display.
+			@return True if the window is currently full screen, false otherwise. */
+		virtual bool IsFullScreen() const { return m_isFullScreen; }
+
 
 	protected:
 
@@ -117,9 +124,6 @@ namespace KatanaEngine
 		/** @brief Displays the game's current frame rate. */
 		virtual void DisplayFrameRate();
 
-		/** @brief Sets the game to display in fullscreen mode. */
-		virtual void SetFullScreen(bool isFullScreen) { m_isFullScreen = isFullScreen; }
-
 		/** @brief Sets the OpenGL flag, which forces OpenGL rendering. */
 		virtual void SetOpenGLFlag() { m_requireOpenGL = true; }
 
@@ -129,8 +133,12 @@ namespace KatanaEngine
 
 	private:
 
+		ALLEGRO_DISPLAY* m_pDisplay = nullptr;
+
 		static int s_screenWidth;
 		static int s_screenHeight;
+		static int s_previousScreenWidth;
+		static int s_previousScreenHeight;
 
 		static std::string s_windowTitle;
 		static std::string s_contentDirectory;

@@ -9,9 +9,6 @@ using namespace KatanaEngine;
 
 SpaceFighter::SpaceFighter()
 {
-	SetScreenResolution(1600, 900);
-	SetFullScreen(false);
-
 	InitializeScreenManager();
 
 	// The "Content" directory is located in the SpaceFighter project directory

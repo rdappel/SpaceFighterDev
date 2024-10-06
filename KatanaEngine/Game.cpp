@@ -16,12 +16,13 @@
 
 namespace KatanaEngine
 {
-	int Game::s_screenWidth = 800;
-	int Game::s_screenHeight = 600;
+	int Game::s_screenWidth = 1600;
+	int Game::s_screenHeight = 900;
+	int Game::s_previousScreenWidth = 0;
+	int Game::s_previousScreenHeight = 0;
 
 	std::string Game::s_contentDirectory = "..\\Content\\";
 	std::string Game::s_windowTitle = "Game";
-
 
 	Game::Game()
 	{
@@ -106,8 +107,8 @@ namespace KatanaEngine
 		if (m_isFullScreen) al_set_new_display_flags(ALLEGRO_FULLSCREEN);
 		if (m_requireOpenGL) al_set_new_display_flags(ALLEGRO_OPENGL);
 
-		ALLEGRO_DISPLAY *pDisplay = al_create_display(GetScreenWidth(), GetScreenHeight());
-		if (!pDisplay)
+		m_pDisplay = al_create_display(GetScreenWidth(), GetScreenHeight());
+		if (!m_pDisplay)
 		{
 			const char message[] = "Failed to initialize display.";
 			al_show_native_message_box(nullptr, nullptr, nullptr, message, nullptr, 0);
@@ -116,11 +117,11 @@ namespace KatanaEngine
 
 
 		if (s_windowTitle.length() == 0) s_windowTitle = GetName();
-		al_set_window_title(pDisplay, s_windowTitle.c_str());
+		al_set_window_title(m_pDisplay, s_windowTitle.c_str());
 		al_set_blender(ALLEGRO_ADD, ALLEGRO_ALPHA, ALLEGRO_INVERSE_ALPHA);
 		al_inhibit_screensaver(true);
 
-		RenderTarget::SetDisplay(pDisplay);
+		RenderTarget::SetDisplay(m_pDisplay);
 		bool redraw = true;
 
 
@@ -129,7 +130,7 @@ namespace KatanaEngine
 		ALLEGRO_TIMER *pTimer = al_create_timer(m_inverseTargetFrames);
 
 		al_register_event_source(pEventQueue, al_get_timer_event_source(pTimer));
-		al_register_event_source(pEventQueue, al_get_display_event_source(pDisplay));
+		al_register_event_source(pEventQueue, al_get_display_event_source(m_pDisplay));
 
 		m_pInput = new InputState();
 
@@ -195,7 +196,7 @@ namespace KatanaEngine
 
 		UnloadContent();
 
-		al_destroy_display(pDisplay);
+		al_destroy_display(m_pDisplay);
 
 		return 0;
 	}
@@ -252,5 +253,42 @@ namespace KatanaEngine
 	{
 		m_targetFramesPerSecond = frames;
 		m_inverseTargetFrames = 1.0 / frames;
+	}
+
+	void Game::ToggleFullScreen()
+	{
+		if (m_pDisplay == nullptr) return;
+
+		if (s_previousScreenHeight == 0 || s_previousScreenWidth == 0)
+		{
+			s_previousScreenHeight = s_screenHeight;
+			s_previousScreenWidth = s_screenWidth;
+		}
+
+		int width = s_previousScreenWidth;
+		int height = s_previousScreenHeight;
+
+		if (!m_isFullScreen)
+		{
+			ALLEGRO_MONITOR_INFO info;
+			al_get_monitor_info(0, &info);
+			width = info.x2 - info.x1;
+			height = info.y2 - info.y1;
+		}
+
+		bool resized = al_resize_display(m_pDisplay, width, height);
+		bool setFlag = al_set_display_flag(m_pDisplay, ALLEGRO_FULLSCREEN_WINDOW, !m_isFullScreen);
+
+		if (resized || setFlag)
+		{
+			s_previousScreenHeight = s_screenHeight;
+			s_previousScreenWidth = s_screenWidth;
+
+			s_screenWidth = width;
+			s_screenHeight = height;
+
+			m_isFullScreen = !m_isFullScreen;
+			al_acknowledge_resize(m_pDisplay);
+		}
 	}
 }
